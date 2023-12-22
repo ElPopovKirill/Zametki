@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Курсовая_2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Должности">
+          <Key>
+            <PropertyRef Name="ID_Должности" />
+          </Key>
+          <Property Name="ID_Должности" Type="int" Nullable="false" />
+          <Property Name="Должность" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Заказы">
+          <Key>
+            <PropertyRef Name="ID_Заказа" />
+          </Key>
+          <Property Name="ID_Заказа" Type="int" Nullable="false" />
+          <Property Name="Содержание" Type="nvarchar" MaxLength="50" />
+          <Property Name="Дедлайн" Type="date" />
+        </EntityType>
+        <EntityType Name="Заметки">
+          <Key>
+            <PropertyRef Name="ID_Заметки" />
+          </Key>
+          <Property Name="ID_Заметки" Type="money" Nullable="false" />
+          <Property Name="ID_Категории" Type="int" />
+          <Property Name="ID_Уведомления" Type="int" />
+          <Property Name="ДатаСоздания" Type="date" />
+          <Property Name="ПлановаяДата" Type="date" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Категория">
+          <Key>
+            <PropertyRef Name="ID_Категория" />
+          </Key>
+          <Property Name="ID_Категория" Type="int" Nullable="false" />
+          <Property Name="Категория" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="ID_Сотрудника" />
+          </Key>
+          <Property Name="ID_Сотрудника" Type="int" Nullable="false" />
+          <Property Name="Фио" Type="nvarchar" MaxLength="50" />
+          <Property Name="Номер" Type="nvarchar" MaxLength="50" />
+          <Property Name="Паспорт" Type="nvarchar" MaxLength="50" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
+          <Property Name="ID_Должности" Type="int" />
+        </EntityType>
+        <EntityType Name="Статуса">
+          <Key>
+            <PropertyRef Name="ID_Статуса" />
+          </Key>
+          <Property Name="ID_Статуса" Type="int" Nullable="false" />
+          <Property Name="Статус" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ТипУведомлений">
+          <Key>
+            <PropertyRef Name="ID_ТипаУведомления" />
+          </Key>
+          <Property Name="ID_ТипаУведомления" Type="int" Nullable="false" />
+          <Property Name="Тип" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Уведомление">
+          <Key>
+            <PropertyRef Name="ID_Уведмоление" />
+          </Key>
+          <Property Name="ID_Уведмоление" Type="int" Nullable="false" />
+          <Property Name="ID_ТипУведомления" Type="int" />
+          <Property Name="ID_Сотрудника" Type="int" />
+          <Property Name="ID_Статуса" Type="int" />
+          <Property Name="ДатаиВремя" Type="date" />
+          <Property Name="ID_Заказа" Type="int" />
+        </EntityType>
+        <Association Name="FK_Заметки_Категория">
+          <End Role="Категория" Type="Self.Категория" Multiplicity="0..1" />
+          <End Role="Заметки" Type="Self.Заметки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категория">
+              <PropertyRef Name="ID_Категория" />
+            </Principal>
+            <Dependent Role="Заметки">
+              <PropertyRef Name="ID_Категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заметки_Уведомление">
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="0..1" />
+          <End Role="Заметки" Type="Self.Заметки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Уведомление">
+              <PropertyRef Name="ID_Уведмоление" />
+            </Principal>
+            <Dependent Role="Заметки">
+              <PropertyRef Name="ID_Уведомления" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Должности">
+          <End Role="Должности" Type="Self.Должности" Multiplicity="0..1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Должности">
+              <PropertyRef Name="ID_Должности" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="ID_Должности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_ID_Статуса">
+          <End Role="Статуса" Type="Self.Статуса" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Статуса">
+              <PropertyRef Name="ID_Статуса" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Статуса" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_Заказы">
+          <End Role="Заказы" Type="Self.Заказы" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="ID_Сотрудника" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_ТипУведомлений">
+          <End Role="ТипУведомлений" Type="Self.ТипУведомлений" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ТипУведомлений">
+              <PropertyRef Name="ID_ТипаУведомления" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_ТипУведомления" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Курсовая_2ModelContainer">
+          <EntitySet Name="Должности" EntityType="Self.Должности" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Заказы" EntityType="Self.Заказы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Заметки" EntityType="Self.Заметки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Категория" EntityType="Self.Категория" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Статуса" EntityType="Self.Статуса" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ТипУведомлений" EntityType="Self.ТипУведомлений" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Уведомление" EntityType="Self.Уведомление" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Заметки_Категория" Association="Self.FK_Заметки_Категория">
+            <End Role="Категория" EntitySet="Категория" />
+            <End Role="Заметки" EntitySet="Заметки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заметки_Уведомление" Association="Self.FK_Заметки_Уведомление">
+            <End Role="Уведомление" EntitySet="Уведомление" />
+            <End Role="Заметки" EntitySet="Заметки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Должности" Association="Self.FK_Сотрудники_Должности">
+            <End Role="Должности" EntitySet="Должности" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_ID_Статуса" Association="Self.FK_Уведомление_ID_Статуса">
+            <End Role="Статуса" EntitySet="Статуса" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_Заказы" Association="Self.FK_Уведомление_Заказы">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_Сотрудники" Association="Self.FK_Уведомление_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_ТипУведомлений" Association="Self.FK_Уведомление_ТипУведомлений">
+            <End Role="ТипУведомлений" EntitySet="ТипУведомлений" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Курсовая_2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Должности">
+          <Key>
+            <PropertyRef Name="ID_Должности" />
+          </Key>
+          <Property Name="ID_Должности" Type="Int32" Nullable="false" />
+          <Property Name="Должность" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сотрудники_Должности" FromRole="Должности" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Заказы">
+          <Key>
+            <PropertyRef Name="ID_Заказа" />
+          </Key>
+          <Property Name="ID_Заказа" Type="Int32" Nullable="false" />
+          <Property Name="Содержание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Дедлайн" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Уведомление" Relationship="Self.FK_Уведомление_Заказы" FromRole="Заказы" ToRole="Уведомление" />
+        </EntityType>
+        <EntityType Name="Заметки">
+          <Key>
+            <PropertyRef Name="ID_Заметки" />
+          </Key>
+          <Property Name="ID_Заметки" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ID_Категории" Type="Int32" />
+          <Property Name="ID_Уведомления" Type="Int32" />
+          <Property Name="ДатаСоздания" Type="DateTime" Precision="0" />
+          <Property Name="ПлановаяДата" Type="DateTime" Precision="0" />
+          <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Категория" Relationship="Self.FK_Заметки_Категория" FromRole="Заметки" ToRole="Категория" />
+          <NavigationProperty Name="Уведомление" Relationship="Self.FK_Заметки_Уведомление" FromRole="Заметки" ToRole="Уведомление" />
+        </EntityType>
+        <EntityType Name="Категория">
+          <Key>
+            <PropertyRef Name="ID_Категория" />
+          </Key>
+          <Property Name="ID_Категория" Type="Int32" Nullable="false" />
+          <Property Name="Категория1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Заметки" Relationship="Self.FK_Заметки_Категория" FromRole="Категория" ToRole="Заметки" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="ID_Сотрудника" />
+          </Key>
+          <Property Name="ID_Сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="Фио" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Номер" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Паспорт" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ID_Должности" Type="Int32" />
+          <NavigationProperty Name="Должности" Relationship="Self.FK_Сотрудники_Должности" FromRole="Сотрудники" ToRole="Должности" />
+          <NavigationProperty Name="Уведомление" Relationship="Self.FK_Уведомление_Сотрудники" FromRole="Сотрудники" ToRole="Уведомление" />
+        </EntityType>
+        <EntityType Name="Статуса">
+          <Key>
+            <PropertyRef Name="ID_Статуса" />
+          </Key>
+          <Property Name="ID_Статуса" Type="Int32" Nullable="false" />
+          <Property Name="Статус" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Уведомление" Relationship="Self.FK_Уведомление_ID_Статуса" FromRole="Статуса" ToRole="Уведомление" />
+        </EntityType>
+        <EntityType Name="ТипУведомлений">
+          <Key>
+            <PropertyRef Name="ID_ТипаУведомления" />
+          </Key>
+          <Property Name="ID_ТипаУведомления" Type="Int32" Nullable="false" />
+          <Property Name="Тип" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Уведомление" Relationship="Self.FK_Уведомление_ТипУведомлений" FromRole="ТипУведомлений" ToRole="Уведомление" />
+        </EntityType>
+        <EntityType Name="Уведомление">
+          <Key>
+            <PropertyRef Name="ID_Уведмоление" />
+          </Key>
+          <Property Name="ID_Уведмоление" Type="Int32" Nullable="false" />
+          <Property Name="ID_ТипУведомления" Type="Int32" />
+          <Property Name="ID_Сотрудника" Type="Int32" />
+          <Property Name="ID_Статуса" Type="Int32" />
+          <Property Name="ДатаиВремя" Type="DateTime" Precision="0" />
+          <Property Name="ID_Заказа" Type="Int32" />
+          <NavigationProperty Name="Заказы" Relationship="Self.FK_Уведомление_Заказы" FromRole="Уведомление" ToRole="Заказы" />
+          <NavigationProperty Name="Заметки" Relationship="Self.FK_Заметки_Уведомление" FromRole="Уведомление" ToRole="Заметки" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Уведомление_Сотрудники" FromRole="Уведомление" ToRole="Сотрудники" />
+          <NavigationProperty Name="Статуса" Relationship="Self.FK_Уведомление_ID_Статуса" FromRole="Уведомление" ToRole="Статуса" />
+          <NavigationProperty Name="ТипУведомлений" Relationship="Self.FK_Уведомление_ТипУведомлений" FromRole="Уведомление" ToRole="ТипУведомлений" />
+        </EntityType>
+        <Association Name="FK_Сотрудники_Должности">
+          <End Role="Должности" Type="Self.Должности" Multiplicity="0..1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Должности">
+              <PropertyRef Name="ID_Должности" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="ID_Должности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_Заказы">
+          <End Role="Заказы" Type="Self.Заказы" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказы">
+              <PropertyRef Name="ID_Заказа" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Заказа" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заметки_Категория">
+          <End Role="Категория" Type="Self.Категория" Multiplicity="0..1" />
+          <End Role="Заметки" Type="Self.Заметки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Категория">
+              <PropertyRef Name="ID_Категория" />
+            </Principal>
+            <Dependent Role="Заметки">
+              <PropertyRef Name="ID_Категории" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заметки_Уведомление">
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="0..1" />
+          <End Role="Заметки" Type="Self.Заметки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Уведомление">
+              <PropertyRef Name="ID_Уведмоление" />
+            </Principal>
+            <Dependent Role="Заметки">
+              <PropertyRef Name="ID_Уведомления" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="ID_Сотрудника" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_ID_Статуса">
+          <End Role="Статуса" Type="Self.Статуса" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Статуса">
+              <PropertyRef Name="ID_Статуса" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_Статуса" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Уведомление_ТипУведомлений">
+          <End Role="ТипУведомлений" Type="Self.ТипУведомлений" Multiplicity="0..1" />
+          <End Role="Уведомление" Type="Self.Уведомление" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ТипУведомлений">
+              <PropertyRef Name="ID_ТипаУведомления" />
+            </Principal>
+            <Dependent Role="Уведомление">
+              <PropertyRef Name="ID_ТипУведомления" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Курсовая_2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Должности" EntityType="Self.Должности" />
+          <EntitySet Name="Заказы" EntityType="Self.Заказы" />
+          <EntitySet Name="Заметки" EntityType="Self.Заметки" />
+          <EntitySet Name="Категория" EntityType="Self.Категория" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <EntitySet Name="Статуса" EntityType="Self.Статуса" />
+          <EntitySet Name="ТипУведомлений" EntityType="Self.ТипУведомлений" />
+          <EntitySet Name="Уведомление" EntityType="Self.Уведомление" />
+          <AssociationSet Name="FK_Сотрудники_Должности" Association="Self.FK_Сотрудники_Должности">
+            <End Role="Должности" EntitySet="Должности" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_Заказы" Association="Self.FK_Уведомление_Заказы">
+            <End Role="Заказы" EntitySet="Заказы" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заметки_Категория" Association="Self.FK_Заметки_Категория">
+            <End Role="Категория" EntitySet="Категория" />
+            <End Role="Заметки" EntitySet="Заметки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заметки_Уведомление" Association="Self.FK_Заметки_Уведомление">
+            <End Role="Уведомление" EntitySet="Уведомление" />
+            <End Role="Заметки" EntitySet="Заметки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_Сотрудники" Association="Self.FK_Уведомление_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_ID_Статуса" Association="Self.FK_Уведомление_ID_Статуса">
+            <End Role="Статуса" EntitySet="Статуса" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Уведомление_ТипУведомлений" Association="Self.FK_Уведомление_ТипУведомлений">
+            <End Role="ТипУведомлений" EntitySet="ТипУведомлений" />
+            <End Role="Уведомление" EntitySet="Уведомление" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Курсовая_2ModelContainer" CdmEntityContainer="Курсовая_2">
+          <EntitySetMapping Name="Должности">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Должности">
+              <MappingFragment StoreEntitySet="Должности">
+                <ScalarProperty Name="ID_Должности" ColumnName="ID_Должности" />
+                <ScalarProperty Name="Должность" ColumnName="Должность" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Заказы">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Заказы">
+              <MappingFragment StoreEntitySet="Заказы">
+                <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+                <ScalarProperty Name="Содержание" ColumnName="Содержание" />
+                <ScalarProperty Name="Дедлайн" ColumnName="Дедлайн" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Заметки">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Заметки">
+              <MappingFragment StoreEntitySet="Заметки">
+                <ScalarProperty Name="ID_Заметки" ColumnName="ID_Заметки" />
+                <ScalarProperty Name="ID_Категории" ColumnName="ID_Категории" />
+                <ScalarProperty Name="ID_Уведомления" ColumnName="ID_Уведомления" />
+                <ScalarProperty Name="ДатаСоздания" ColumnName="ДатаСоздания" />
+                <ScalarProperty Name="ПлановаяДата" ColumnName="ПлановаяДата" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Категория">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Категория">
+              <MappingFragment StoreEntitySet="Категория">
+                <ScalarProperty Name="ID_Категория" ColumnName="ID_Категория" />
+                <ScalarProperty Name="Категория1" ColumnName="Категория" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="ID_Сотрудника" ColumnName="ID_Сотрудника" />
+                <ScalarProperty Name="Фио" ColumnName="Фио" />
+                <ScalarProperty Name="Номер" ColumnName="Номер" />
+                <ScalarProperty Name="Паспорт" ColumnName="Паспорт" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="ID_Должности" ColumnName="ID_Должности" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Статуса">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Статуса">
+              <MappingFragment StoreEntitySet="Статуса">
+                <ScalarProperty Name="ID_Статуса" ColumnName="ID_Статуса" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ТипУведомлений">
+            <EntityTypeMapping TypeName="Курсовая_2Model.ТипУведомлений">
+              <MappingFragment StoreEntitySet="ТипУведомлений">
+                <ScalarProperty Name="ID_ТипаУведомления" ColumnName="ID_ТипаУведомления" />
+                <ScalarProperty Name="Тип" ColumnName="Тип" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Уведомление">
+            <EntityTypeMapping TypeName="Курсовая_2Model.Уведомление">
+              <MappingFragment StoreEntitySet="Уведомление">
+                <ScalarProperty Name="ID_Уведмоление" ColumnName="ID_Уведмоление" />
+                <ScalarProperty Name="ID_ТипУведомления" ColumnName="ID_ТипУведомления" />
+                <ScalarProperty Name="ID_Сотрудника" ColumnName="ID_Сотрудника" />
+                <ScalarProperty Name="ID_Статуса" ColumnName="ID_Статуса" />
+                <ScalarProperty Name="ДатаиВремя" ColumnName="ДатаиВремя" />
+                <ScalarProperty Name="ID_Заказа" ColumnName="ID_Заказа" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

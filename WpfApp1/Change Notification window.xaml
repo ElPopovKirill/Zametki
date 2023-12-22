@@ -1,0 +1,55 @@
+﻿<Window x:Class="WpfApp1.Change_Notification_window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Окно изменение уведомления" Height="450" Width="800">
+    <Grid Background="Aqua">
+        <Border Margin="55,0,55,0" Background="#07bab2" VerticalAlignment="Center" Padding="30" MaxWidth="800" CornerRadius="50" Height="469">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="90" Color="Black" ShadowDepth="0"></DropShadowEffect>
+        </Border.Effect>
+        <StackPanel x:Name="stpanel1">
+            <Button HorizontalAlignment="Right" Content="Назад" Height="30" Width="70" Background="MediumSpringGreen" Margin="14,0 0,0" Click="Button_B_Click"></Button>
+
+            <TextBlock Text="№Типа Уведомления" FontSize="20" FontWeight="Bold"/>
+           
+                <ComboBox  Name="combo1" Height="24">
+                    <ComboBoxItem Content="Уведомление о мероприятиях"/>
+                    <ComboBoxItem Content="Элемент 2"/>
+                    <ComboBoxItem Content="Элемент 3"/>
+                </ComboBox>
+
+
+                <TextBlock Text="Сотрудник" FontSize="20" FontWeight="Bold"/>
+
+                <ComboBox x:Name="ComboBoxST" Height="24" SelectionChanged="ComboBoxST_SelectionChanged">
+                    <ComboBoxItem Content="Милин Даниил Семёнович"/>
+                    <ComboBoxItem Content="Элемент 2"/>
+                    <ComboBoxItem Content="Элемент 3"/> 
+                </ComboBox>
+                <TextBlock Text="№Заказа" FontSize="20" FontWeight="Bold"/>
+                <ComboBox  Name="combo1s" Height="24">
+                    <ComboBoxItem Content="Заказ 4325"/>
+                    <ComboBoxItem Content="Элемент 2"/>
+                    <ComboBoxItem Content="Элемент 3"/>
+                </ComboBox>
+                <TextBlock Text="№Статус" FontSize="20" FontWeight="Bold"/>
+                <ComboBox  Name="combo1ss" Height="24">
+                    <ComboBoxItem Content="Не прочитано"/>
+                    <ComboBoxItem Content="Элемент 2"/>
+                    <ComboBoxItem Content="Элемент 3"/>
+                </ComboBox>
+                <TextBlock Text="Дата и время" FontSize="20" FontWeight="Bold"/>
+            <DatePicker x:Name="date" Height="24"/>
+
+            <Grid Margin="23 20 10 20">
+                <Button HorizontalAlignment="Center" Content="изменить уведомление" Height="30" Width="200" Background="MediumSpringGreen" Margin="14 10 10 20" Click="Button_A_Click"></Button>
+            </Grid>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
